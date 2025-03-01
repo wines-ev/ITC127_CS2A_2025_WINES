@@ -1,0 +1,32 @@
+html {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+@font-face {
+    font-family: roboto;
+    src: url('../assets/font/roboto.ttf');
+}
+
+body {
+    font-family: roboto;
+}
+
+
+.redirect-signup {
+    color: rgb(105, 105, 105);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}

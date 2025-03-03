@@ -28,17 +28,17 @@
 
 
 
-					<div class="d-flex align-items-center mb-4">
+					<a class="d-flex align-items-center mb-4" href="#">
 						<i class="fa-solid fa-chart-simple fs-1 text-light text-center" style="width: 5rem;"></i>
-						<a class="navtab-text text-light fs-4" href="#">Dashboard</a>
-					</div>
+						<p class="navtab-text text-light fs-4 mb-0">Dashboard</p>
+					</a>
 					
-					<div class="d-flex align-items-center mb-4">
+					<a class="d-flex align-items-center mb-4" href="#">
 						<i class="fa-solid fa-users fs-1 text-light text-center" style="width: 5rem;"></i>
-						<a class="navtab-text text-light fs-4" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+						<p class="navtab-text text-light fs-4 mb-0" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 							Accounts
-						</a>
-					</div>
+						</p>
+					</a>
 					
 					<div class="collapse" id="collapseExample">
 						<div class="ms-3 d-flex flex-column">
@@ -49,10 +49,10 @@
 							<a class="text-light" href = "create-account.php">Create new account</a>
 						</div>
 					</div>
-					<div class="position-absolute d-flex align-items-center" style="bottom: 2rem;">
+					<a class="position-absolute d-flex align-items-center" style="bottom: 2rem;" href="logout.php">
 						<i class="fa-solid fa-door-open fs-1 text-light text-center" style="width: 4rem;"></i>
-						<a class="text-light fs-4" href = "logout.php">Logout</a>
-					</div>
+						<pq class="navtab-text text-light fs-4 mb-0">Logout</p>
+					</a>
 				</div>
 			</div>
 			

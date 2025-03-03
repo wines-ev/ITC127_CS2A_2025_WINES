@@ -11,8 +11,16 @@ html {
     padding: 0;
 }
 
+.container {
+    width: 100vw;
+}
+
 .login-body {
     background-color: #dadada !important;  
+}
+
+a {
+    text-decoration: none !important;
 }
 
 @font-face {
@@ -169,6 +177,6 @@ th, tr, td {
 
 @media screen and (min-width: 1400px) {
     .login-con, .img-con {
-        height: 63vh;
+        height: 70vh;
     }
 }

@@ -17,7 +17,7 @@
 	<div class="container-fluid mx-0 px-0">
 		<div class="accounts-hero d-flex align-items-start">
 			<div>
-				<div id="sidenav" class="sidenav position-relative d-flex flex-column gap-4 bg-blue z-1 overflow-hidden px-4" style="width: 20rem; height: 100vh;">
+				<div id="sidenav" class="sidenav position-relative d-flex flex-column gap-4 bg-blue z-1 overflow-hidden">
 					<div class="d-flex align-items-center justify-content-between w-100 mb-5">
 						<div class="d-flex align-items-center" style="height: 6rem;">
 							<img class="au_logo" src="./assets/img/au_logo.png" alt="" style="width: 4rem; height: 4rem;">
@@ -167,7 +167,9 @@
 		document.getElementById("sidenav").style.width = "20rem";
 		open_nav_icon.style.display = "none";
 		close_nav_icon.style.display = "block";
-		sidenav_title.style.display = "block";
+		sidenav_title.style.display = "block";		
+
+		document.getElementById("sidenav").style.padding = "0 2rem";
 
 		for(let text of navtab_texts) {
 			text.style.display = "block";
@@ -175,7 +177,14 @@
 	}
 
 	function closeNav() {
-		document.getElementById("sidenav").style.width = "7rem";
+		if (screen.width > 767) {
+			document.getElementById("sidenav").style.width = "7rem";
+		}
+		else {
+			document.getElementById("sidenav").style.width = "0";
+			document.getElementById("sidenav").style.padding = "0";
+		}
+		
 		open_nav_icon.style.display = "block";
 		close_nav_icon.style.display = "none";
 		sidenav_title.style.display = "none";

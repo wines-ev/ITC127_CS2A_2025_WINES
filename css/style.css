@@ -86,16 +86,19 @@ a {
     scale: 1.5 !important;
 }
 
-#open-nav-icon {
-    display: none;
-}
 
+
+
+
+
+.accounts-hero .sidenav {
+    width: 0; 
+    height: 100vh;
+}
 
 .accounts-con {
     flex: 1;
 }
-
-
 .accout-table-con table {
     width: 100%;
 }
@@ -140,12 +143,19 @@ th, tr, td {
 /* xs < 768  phones*/
 @media screen and (max-width: 767px) {
     .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav a {font-size: 18px;}   
 }
 
 /* sm - larger tablet */
 @media screen and (min-width: 768px) {
-    
+    .accounts-hero .sidenav {
+        width: 20rem; 
+        padding: 0 2rem;
+    }
+
+    #open-nav-icon {
+        display: none;
+    }
 }
 
 /* md - small laptop */

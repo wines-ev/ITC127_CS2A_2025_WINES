@@ -119,6 +119,12 @@ th, tr, td {
 }
 
 
+
+#pop-up-trigger, #delete-pop-up-trigger {
+    display: none !important;
+}
+
+
 .bg-blue {
     background-color: #0884E3 !important;
 }

@@ -2,7 +2,7 @@
 	require_once "config.php";
 	include "session-checker.php";
 
-	if (isset($_POST["btnsubmit"])) {
+	if (isset($_GET['username'])) {
 
 		$sql = "DELETE FROM tblaccounts WHERE username = ?";
 		echo "123";
@@ -23,7 +23,7 @@
 
 						if (mysqli_stmt_execute($stmt)) {
 							echo "User account deleted";
-							header("location: account-management.php");
+							header("location: account-management.php?account-deleted&deleted-account=" . $_GET['username']);
 							exit();
 						}
 					}
@@ -37,20 +37,3 @@
 		}
 	}
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Delete Account</title>
-</head>
-<body>
-	<form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="POST">
-		<input type="hidden" name="txtusername" value="<?php echo trim($_GET['username']) ?>">
-		<p>Are you sure you want to delete account?</p>
-		<input type="submit" name="btnsubmit" value="Yes">
-		<a href="account-management.php">No</a>
-	</form>
-</body>
-</html>

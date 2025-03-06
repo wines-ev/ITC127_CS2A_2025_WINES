@@ -1,5 +1,6 @@
 <?php	
 	session_start();
+	
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +13,92 @@
 	<link rel="stylesheet" href="./plugins/bs/bootstrap.min.css">
 	<script src="./plugins/bs/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/acb62c1ffe.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
+		
+
+	<button type="button" id="pop-up-trigger" class="pop-up-trigger btn btn-primary fs-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		Launch demo modal
+	</button>
+
+	<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<p class="modal-title fs-1" id="exampleModalLabel">Acount 
+						<?php 
+							if (isset($_GET["account-updated"])) {
+								echo "updated!";
+							}
+							else if (isset($_GET["account-deleted"])) {
+								echo "deleted!";
+							}
+						?>
+					</p>
+					<a href="account-management.php" type="button" class="btn-close fs-4" aria-label="Close"></a>
+				</div>
+				<div class="modal-body fs-4 my-4">
+					<p class="fs-4">
+						<?php 
+							if (isset($_GET["account-updated"])) {
+								echo "Account '" . $_GET['updated-account'] . "' was updated successfully.";
+							}
+							else if (isset($_GET["account-deleted"])) {
+								echo "Account '" . $_GET['deleted-account'] . "' was deleted successfully.";
+							}
+						?>
+					
+					</p>
+				</div>
+				<div class="modal-footer">
+					<a href="account-management.php" class="btn btn-primary fs-4">Ok</a>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<button type="button" id="delete-pop-up-trigger" class="pop-up-trigger btn btn-primary fs-4" data-bs-toggle="modal" data-bs-target="#deleteModal">
+		Launch demo modal
+	</button>
+
+	<div class="modal" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<p class="modal-title fs-1" id="exampleModalLabel">Caution!</p>
+					<a href="account-management.php" type="button" class="btn-close fs-4" aria-label="Close"></a>
+				</div>
+				<div class="modal-body fs-4 my-4">
+					<p class="fs-4">
+						Are you sure you want to delete '<?php echo $_GET["username-to-delete"] ?>'?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary fs-4" data-bs-dismiss="modal">Cancel</button>
+					<a href="delete-account.php?username=<?php echo $_GET["username-to-delete"] ?>" class="btn btn-danger fs-4">Yes</a>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	
+
+	<?php
+		if (isset($_GET["delete-account-modal"]) && isset($_GET["username-to-delete"])) {
+			echo "<script>document.getElementById('delete-pop-up-trigger').click();</script>";
+		}
+
+		if (isset($_GET["account-updated"]) && isset($_GET["updated-account"])) {
+			echo "<script>document.getElementById('pop-up-trigger').click();</script>";
+		}	
+		else {
+			if (isset($_GET["account-deleted"]) && isset($_GET["deleted-account"])) {
+				echo "<script>document.getElementById('pop-up-trigger').click();</script>";
+			}	
+		}
+	?>
+	
 	<div class="container-fluid mx-0 px-0">
 		<div class="accounts-hero d-flex align-items-start">
 			<div>
@@ -51,7 +136,7 @@
 					</div>
 					<a class="position-absolute d-flex align-items-center" style="bottom: 2rem;" href="logout.php">
 						<i class="fa-solid fa-door-open fs-1 text-light text-center" style="width: 4rem;"></i>
-						<pq class="navtab-text text-light fs-4 mb-0">Logout</p>
+						<p class="navtab-text text-light fs-4 mb-0">Logout</p>
 					</a>
 				</div>
 			</div>
@@ -130,14 +215,16 @@
 
 							while($row = mysqli_fetch_array($result)) {
 								echo "<tr id='data-row' >";
-								echo "<td>" . $row['username'] . "</td>";
-								echo "<td>" . $row['usertype'] . "</td>";
-								echo "<td>" . $row['status'] . "</td>";
-								echo "<td>" . $row['createdby'] . "</td>";
-								echo "<td>" . $row['datecreated'] . "</td>";
+								echo "<td class='fs-4'>" . $row['username'] . "</td>";
+								echo "<td class='fs-4'>" . $row['usertype'] . "</td>";
+								echo "<td class='fs-4'>" . $row['status'] . "</td>";
+								echo "<td class='fs-4'>" . $row['createdby'] . "</td>";
+								echo "<td class='fs-4'>" . $row['datecreated'] . "</td>";
 								echo "<td>";
-								echo "<a href = 'update-account.php?username=" . $row['username'] . "'>Update</a> ";
-								echo "<a href = 'delete0-account.php?username=" . $row['username'] . "'>Delete</a>";
+								echo "<a href = 'update-account.php?username=" . $row['username'] . "' class='fs-4'>Update</a> ";
+								echo "<a href=account-management.php?delete-account-modal&username-to-delete=" . $row['username'] . " class='fs-4'>
+										Delete
+									  </a>";
 								echo "</td>";
 								echo "</tr>";
 							}

@@ -23,7 +23,9 @@
 
 						if (mysqli_stmt_execute($stmt)) {
 							echo "User account updated";
-							header("location: account-management.php?account-updated&updated-account=" . $_GET['username']);
+							$_SESSION["updated"] = true;
+							$_SESSION["updated-account"] = $_GET['username'];
+							header("location: account-management.php");
 							exit();
 						}
 					}
@@ -67,109 +69,96 @@
 	<script src="https://kit.fontawesome.com/acb62c1ffe.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container-fluid mx-0 px-0">
+	<div class="container-fluid mx-0 px-0">
 		<div class="accounts-hero d-flex align-items-start">
-			<div>
-				<div id="sidenav" class="sidenav position-relative d-flex flex-column gap-4 bg-blue z-1 overflow-hidden">
-					<div class="d-flex align-items-center justify-content-between w-100 mb-5">
-						<div class="d-flex align-items-center" style="height: 6rem;">
-							<img class="au_logo" src="./assets/img/au_logo.png" alt="" style="width: 4rem; height: 4rem;">
-							<p id="sidenav_title" class="fs-2 ms-2 mb-0 text-light">TSMS</p>
-						</div>
-						<span id="close-nav-icon" class="text-light fs-2" style="cursor:pointer" onclick="closeNav()">&#9776;</span>
-					</div>
-
-
-
-					<a class="d-flex align-items-center mb-4" href="#">
-						<i class="fa-solid fa-chart-simple fs-1 text-light text-center" style="width: 5rem;"></i>
-						<p class="navtab-text text-light fs-4 mb-0">Dashboard</p>
-					</a>
-					
-					<a class="d-flex align-items-center mb-4" href="#">
-						<i class="fa-solid fa-users fs-1 text-light text-center" style="width: 5rem;"></i>
-						<p class="navtab-text text-light fs-4 mb-0" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-							Accounts
-						</p>
-					</a>
-					
-					<div class="collapse" id="collapseExample">
-						<div class="ms-3 d-flex flex-column">
-							<a class="text-light" href="#">All accounts</a>
-							<a class="text-light" href="#">Administrator</a>
-							<a class="text-light" href="#">Technical</a>
-							<a class="text-light" href="#">Staff</a>
-							<a class="text-light" href = "create-account.php">Create new account</a>
-						</div>
-					</div>
-					<a class="position-absolute d-flex align-items-center" style="bottom: 2rem;" href="logout.php">
-						<i class="fa-solid fa-door-open fs-1 text-light text-center" style="width: 4rem;"></i>
-						<p class="navtab-text text-light fs-4 mb-0">Logout</p>
-					</a>
-				</div>
-			</div>
+			<?php include ("./modules/sidenav.php") ?>
 			
 			<div class="accounts-con">
-				<div class="account-header d-flex align-items-center" style="height: 6rem;">
-					
-				
-					<span id="open-nav-icon" class="ms-5 fs-2" style="font-size:2rem; cursor:pointer;" onclick="openNav()">&#9776;</span>
-					<div class="ms-5">
-						<?php
-							if(isset($_SESSION['username']))
-							{
-								echo "<p class='mb-0 fs-1'>Welcome, " . $_SESSION['username'] . "</p>";
-								echo "<p class='mb-0 fs-4'>Account Type:  " . $_SESSION['usertype'] . "</p>";
-							}
-							else
-							{
-								header("location: login.php");
-							}
-						?>
-					</div>
-					
-				
-				</div>
-
-				<hr class="mt-2">
+				<?php include ("./modules/header.php") ?>
 				
 				<div class="d-flex justify-content-between mx-5">
-					<p class="fs-4 mb-0">Accounts / Delete account</p>
+					<p class="fs-4 mb-0">Accounts / Update account</p>
 					
 				</div>
 
-				<div class="mx-5">
-					<p>Change the value on this form and submit to update the account</p>
+				<div class="container">
+					<div class="mx-auto bg-white border p-5 rounded-4 mt-5 w-50 shadow">
+						<p class="fs-4 mb-5">Change the value on this form and submit to update the account.</p>
 
-					<form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="POST">
-						Username: <?php echo $account['username']; ?> <br>
-						Password: <input type="password" name="txtpassword" value="<?php echo $account['password']; ?>" required> <br>
+						<form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="POST">
+							<div class="input-group mb-4">
+								<span class="input-group-text fs-4 py-3" id="basic-addon1" style="width: 35%;">Username</span>
+								<input class="form-control fs-4" type="text" value="<?php echo $account['username']; ?>" disabled>
+							</div>
 
-						Current usertype: <?php echo $account['usertype']; ?><br>
-						Change Usertype to: <select name="cmbtype" id="cmbtype" required>
-							<option value="ADMINISTRATOR" <?php if ($account['usertype'] == "ADMINISTRATOR") {echo "selected";} ?>>Administrator</option>
-							<option value="TECHNICAL" <?php if ($account['usertype'] == "TECHNICAL") {echo "selected";} ?>>Technical</option>
-							<option value="STAFF" <?php if ($account['usertype'] == "STAFF") {echo "selected";} ?>>Staff</option>
-						</select><br>
+							<div class="input-group mb-4">
+								<span class="input-group-text fs-4 py-3" id="basic-addon1" style="width: 35%;">Password</span>
+								<input class="form-control fs-4" type="password" name="txtpassword" value="<?php echo $account['password']; ?>">
+							</div>
 
-						Status:<br>
+							<div class="input-group mb-4">
+								<span class="input-group-text fs-4 py-3" id="basic-addon1" style="width: 35%;">Current usertype</span>
+								<input class="form-control fs-4" type="text" value="<?php echo $account['usertype']; ?>" disabled>
+							</div>
+							
+							<div class="input-group mb-4">
+								<span class="input-group-text fs-4 py-3" id="basic-addon1" style="width: 35%;">Change Usertype to</span>
+								<select class="form-select fs-4" name="cmbtype" id="cmbtype" required>
+									<option value="ADMINISTRATOR" <?php if ($account['usertype'] == "ADMINISTRATOR") {echo "selected";} ?>>Administrator</option>
+									<option value="TECHNICAL" <?php if ($account['usertype'] == "TECHNICAL") {echo "selected";} ?>>Technical</option>
+									<option value="STAFF" <?php if ($account['usertype'] == "STAFF") {echo "selected";} ?>>Staff</option>
+								</select>
+							</div>
 
-						<?php 
-							$status = $account['status'];
+							<div class="input-group mb-4">
+								<span class="input-group-text fs-4 py-3" id="basic-addon1" style="width: 35%;">Status</span>
+								<div class="input-group-text fs-4 bg-white" style="width: 65%;">
+									<?php 
+										$status = $account['status'];
 
-							if ($status == 'ACTIVE') {
-								?><input type="radio" name="rbstatus" value="ACTIVE" checked> Active<br>
-								<input type="radio" name="rbstatus" value="INACTIVE">Inactive<br><?php
-							}
-							else {
-								?><input type="radio" name="rbstatus" value="ACTIVE"> Active<br>
-								<input type="radio" name="rbstatus" value="INACTIVE" checked>Inactive<br><?php
-							}
-						?>
+										if ($status == 'ACTIVE') {		
+									?>
+										<div class="form-check form-check-inline me-5">
+											<input class="form-check-input" type="radio" name="rbstatus" id="rbstatus1" value="ACTIVE" checked>
+											<label class="form-check-label" for="inlineRadio1">Active</label>
+										</div>
 
-						<input type="submit" name="btnsubmit" value="Submit">
-						<a href="account-management.php">Cancel</a>
-					</form>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="rbstatus" id="rbstatus2" value="INACTIVE">
+											<label class="form-check-label" for="inlineRadio1">Inactive</label>
+										</div>
+
+									<?php
+										}
+										else {
+									?>
+										<div class="form-check form-check-inline me-5">
+											<input class="form-check-input" type="radio" name="rbstatus" id="rbstatus1" value="ACTIVE">
+											<label class="form-check-label" for="inlineRadio1">Active</label>
+										</div>
+
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="rbstatus" id="rbstatus2" value="INACTIVE" checked>
+											<label class="form-check-label" for="inlineRadio1">Inactive</label>
+										</div>
+
+									<?php
+										}
+									?>
+								</div>
+								
+							</div>
+
+
+				
+							
+
+							<div class="d-flex mt-5 gap-3 justify-content-end">
+								<a class="btn bg-secondary text-light fs-4 px-5" href="account-management.php">Cancel</a>
+								<input class="btn bg-blue text-light fs-4 px-5" type="submit" name="btnsubmit" value="Submit">
+							</div>
+						</form>
+					</div>
 
 				</div>
 
@@ -198,7 +187,7 @@
 	}
 
 	function closeNav() {
-		if (screen.width > 767) {
+		if (screen.width > 767 && screen.width < 1280) {
 			document.getElementById("sidenav").style.width = "7rem";
 		}
 		else {
